@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1786357620564,
+  "projectRoot": "/home/aavitan/claude-projects/job-analyze-tool",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "companies": {
+      "path": "companies",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1786357620558,
+      "keyFiles": []
+    },
+    "templates": {
+      "path": "templates",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1786357620560,
+      "keyFiles": [
+        "company-analysis-template.md"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "README.md",
+      "accessCount": 2,
+      "lastAccessed": 1786359472983,
+      "type": "file"
+    },
+    {
+      "path": "templates/company-analysis-template.md",
+      "accessCount": 1,
+      "lastAccessed": 1786359238331,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+.env
+.env.*
+!.env.example
+
+# Tooling state — keep plans, drop session/runtime state
+.context-mem/
+.omc/state/
+.omc/sessions/
+.claude/settings.local.json

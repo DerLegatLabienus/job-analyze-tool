@@ -80,3 +80,4 @@ job-analyze-tool/
 
 - `companies/adaptive6/analysis.md` — Example: Adaptive6 analysis
 - `templates/company-analysis-template.md` — Start here for new companies
+- `docs/job-agent-poc.md` — LinkedIn job-agent POC: improved prompt + macro architecture

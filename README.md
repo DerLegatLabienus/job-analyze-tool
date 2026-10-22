@@ -81,3 +81,18 @@ job-analyze-tool/
 - `companies/adaptive6/analysis.md` — Example: Adaptive6 analysis
 - `templates/company-analysis-template.md` — Start here for new companies
 - `docs/job-agent-poc.md` — LinkedIn job-agent POC: improved prompt + macro architecture
+
+## Job agent (POC, milestone 1)
+
+See `docs/job-agent-poc.md`. Milestone 1 ingests LinkedIn job-alert emails into SQLite.
+
+```
+pip install -e '.[dev]'          # add ,gmail / ,browser extras as needed
+cp config/search.example.yaml config/search.yaml
+jobagent ingest-file tests/fixtures/linkedin_alert.html   # offline demo
+jobagent ingest-alerts           # Gmail (read-only OAuth, needs config/gmail_client.json)
+jobagent login && jobagent fetch # manual login once; capped description fetch
+jobagent status
+pytest
+```
+Create `data/STOP` to halt all runs (kill-switch).

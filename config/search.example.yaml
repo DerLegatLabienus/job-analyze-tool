@@ -1,0 +1,12 @@
+# Copy to config/search.yaml (gitignored).
+gmail:
+  query: 'from:jobalerts-noreply@linkedin.com newer_than:2d'
+  max_messages: 50
+limits:
+  max_job_views_per_day: 100      # shared across all runs
+  min_delay_s: 4
+  max_delay_s: 12
+filters:
+  reject_title_regex: '\b(junior|intern|student|graduate)\b'
+  # Mid-level is allowed at corporates; the Haiku-tier pre-screen (M2) decides.
+  flag_title_regex: '\b(mid|mid-level|ii)\b'

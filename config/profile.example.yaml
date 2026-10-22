@@ -1,0 +1,5 @@
+# Copy to config/profile.yaml (gitignored). Source of truth is your CV.
+cv_dir: ~/Google Drive/final version      # Drive for Desktop synced folder
+reports_dir: ~/Google Drive/job-agent-reports
+target_roles: [senior backend, c++ systems, ai-assisted engineering]
+locations: [israel, tel aviv, remote]

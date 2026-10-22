@@ -11,3 +11,13 @@ dist/
 .omc/state/
 .omc/sessions/
 .claude/settings.local.json
+
+# jobagent personal data
+config/*.yaml
+!config/*.example.yaml
+config/*.json
+data/
+*.db
+__pycache__/
+*.egg-info/
+.pytest_cache/

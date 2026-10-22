@@ -1,5 +1,39 @@
 # Job Agent POC — Prompt & Macro Architecture
 
+## 0. Settled decisions (grilling session, 2026-10-22)
+
+These override anything below that conflicts.
+
+| Area | Decision |
+|---|---|
+| Scope | **Staged**: M1–M2 read-only (discover, score, report); applier added later, dry-run → approve-each. |
+| Account risk | Main Premium account, not disposable. Applier approve-each only, **≤10 apply-approvals/day**, stop on any challenge/CAPTCHA. |
+| Discovery | **Alerts + browser**: LinkedIn job-alert emails (Gmail) discover jobs; Playwright on the logged-in session only fetches full descriptions and applies, for jobs that passed the pre-filter. |
+| Stack | Python on the user's laptop: Playwright (headed, manual login), SQLite, typer CLI, pydantic, cron/launchd. |
+| LLM | **Two-tier Claude**: Haiku-class pre-screen, Sonnet-class scores the shortlist; cache by job ID + profile version; per-run spend cap in config. |
+| Profile source | Base CV = `Aviv_Avitan_CV.pdf` in the Drive folder "final version". LinkedIn profile not ingested; **CV is the source of truth**. |
+| CV variants | Existing truthful variants (e.g. low-level emphasis, distributed reliability, RabbitMQ/microservices) are **selected per job**; no LLM-written CVs in the POC. |
+| Target roles | Senior Backend (Python/Node), Low-level / C++ systems, AI-assisted engineering. |
+| Location | Israel on-site/hybrid and Israel-based remote. |
+| Deal-breakers | Mandatory on-call / 24x7; junior titles. **Mid-level allowed at corporates**, where "corporate" is judged by the Haiku-tier pre-screen from company info. |
+| Salary | No filter; record and report when listed. |
+| Drive access | **Drive for Desktop** synced folder for CV, variants and reports. No Drive OAuth code. |
+| Reports | Written into the synced Drive folder (also viewable on phone). |
+| Gmail | **Gmail API, read-only OAuth** (`gmail.readonly`); token stored locally and gitignored. Used for job-alert ingestion and outcome tracking (replies, interviews, rejections). CLI can override. |
+| Review UI | **CLI first**: approve/skip, 👍/👎 labels, answers to unknown screening questions. |
+| Cadence | **2 runs/day** (morning, evening), caps shared across both runs: ≤100 job views/day, jittered delays, working hours only. |
+| Privacy | CV, answers bank, tokens and reports are personal data: gitignored, never committed. |
+
+### Resulting changes to the architecture
+- Add an **Alerts Ingestor** (Gmail API) in front of Discovery; the browser Discovery step becomes "fetch description for shortlisted IDs".
+- Add an **Outcome Tracker** (Gmail API) feeding the `outcomes` table and the funnel report.
+- Add a **CV Selector** to Matcher output: `{score, chosen_cv_variant, ...}`.
+- Matcher pre-screen also emits `is_corporate` and `seniority` for the deal-breaker rule.
+- Reporter writes to the Drive-synced folder; config holds `drive_dir` and `cv_dir`.
+- Milestones re-ordered: M1 Gmail alert ingest + extract → SQLite; M2 matcher + reporter + labelling CLI; M3 eval/learning loop + outcome tracker; M4 applier (dry-run → approve-each).
+
+---
+
 ## 1. Improved prompt (spec)
 
 > Build a **local, single-user** service that discovers jobs on LinkedIn, scores them against my profile, applies to good matches via Easy Apply **after my approval (or under strict auto-rules)**, reports results, and learns from outcomes to improve matching.
